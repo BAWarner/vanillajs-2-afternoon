@@ -84,6 +84,37 @@
 </body>
 
 <script>
+
+    var characters = [];
+    var list = document.querySelector('#list');
+    var search = document.querySelector('input[type="text"]');
+    
+    fetch('https://www.breakingbadapi.com/api/characters')
+        .then(res => res.json())
+        .then(res => {
+                characters = res;
+                return characters;
+            }
+        )
+
+    function render(arr){
+        const html = arr.join('');
+        list.innerHTML = html;
+    }
+
+    function filterText(){
+        const filtered = characters
+        .filter(val => val.name.toLowerCase().includes(this.value.toLowerCase()))
+        .map(val => `<li>${val.name}</li>`)
+
+        if (filtered.length) {
+            render(filtered)
+        }
+    }
+
+    search.addEventListener('keyup', filterText);
+
+
 </script>
 
 </html>
